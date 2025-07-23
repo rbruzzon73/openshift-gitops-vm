@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitops-virtual-machines
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: gitops-virtual-machines 
+    server: https://kubernetes.default.svc
+  project: test-openshift-virtualization
+  source:
+    path: overlays
+    repoURL: https://github.com/rbruzzon73/openshift-gitops-vm.git
+    targetRevision: openshift-gitops-vm
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
