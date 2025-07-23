@@ -35,7 +35,7 @@ spec:
           disks:
           - disk:
               bus: virtio
-            name: vm-rootdisk
+            name: gitops-vm-rhel9
           - disk:
               bus: virtio
             name: cloudinitdisk
