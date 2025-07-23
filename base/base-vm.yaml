@@ -58,8 +58,8 @@ spec:
         pod: {}
       volumes:
       - dataVolume:
-          name: rhel9-dv
-        name: vm-rootdisk
+          name: gitops-vm-rhel9
+        name: gitops-vm-rhel9
       - cloudInitNoCloud:
           userData: |-
             #cloud-config
