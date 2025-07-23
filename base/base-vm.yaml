@@ -1,0 +1,69 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  labels:
+    app: gitops-vm-rhel9 
+  name: gitops-vm-rhel9
+spec:    
+  running: false
+  dataVolumeTemplates:
+  - metadata:
+      creationTimestamp: null
+      name: gitops-vm-rhel9
+    spec:
+      sourceRef:
+        kind: DataSource
+        name: rhel9
+        namespace: openshift-virtualization-os-images
+      storage:
+        resources:
+          requests:
+            storage: 30Gi   
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: base-vm
+    spec:
+      domain:
+        cpu:
+          cores: 1
+          sockets: 2
+          threads: 1
+        memory:
+          guest: 2048M
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: vm-rootdisk
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+          interfaces:
+          - masquerade: {}
+            name: default
+          rng: {}
+        features:
+          smm:
+            enabled: true
+        firmware:
+          bootloader:
+            efi: {}
+        resources:
+          requests:
+            memory: 2Gi
+      evictionStrategy: LiveMigrate
+      networks:
+      - name: default
+        pod: {}
+      volumes:
+      - dataVolume:
+          name: rhel9-dv
+        name: vm-rootdisk
+      - cloudInitNoCloud:
+          userData: |-
+            #cloud-config
+            user: cloud-user
+            password: 'redhat1234' 
+            chpasswd: { expire: False }
+        name: cloudinitdisk

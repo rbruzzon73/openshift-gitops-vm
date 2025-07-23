@@ -16,3 +16,4 @@ Dev and Prod subdirectories: Each contains files to be used to customize environ
 
 # test-openshift-virtualization
 # openshift-gitops-vm
+# kustomize-gitops-vm
